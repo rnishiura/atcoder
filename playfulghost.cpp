@@ -1,40 +1,31 @@
 #include <iostream>
+#include <string>
+#include <algorithm>
+#include <array>
+#include <utility>
+
 using namespace std;
 
+string i2s(unsigned int i) {
+  if(i>256) {
+    cout << "too big number" << endl;
+    return 0;
+  }
+  return "" + (unsigned char)(i);
+}
+
 int main(void) {
-  cout << min(3, 5) << endl;
+  cout << (make_pair(2, 5) == make_pair(2, 5)) << endl;
   return 0;
 
-  int n, w;
-  cin >> n >> w;
-
-  int a[n];
-  for (int i=0; i<n; i++) cin >> a[i];
-
-  bool flg[w+1];
-  for (int i=0; i<=w; i++) flg[i] = false;
-
-  int tmp;
-  for (int i=0; i<n; i++) {
-    tmp = a[i];
-    if (tmp > w) continue;
-    flg[tmp] = true;
-
-    for (int j=i+1; j<n; j++){
-      tmp = a[i] + a[j];
-      if (tmp > w) continue;
-      flg[tmp] = true;
-
-      for (int k=j+1; k<n; k++){
-        tmp = a[i] + a[j] + a[k];
-        if (tmp > w) continue;
-        flg[tmp] = true;
-      }
-    }
+  pair<int, int> v[5];
+  array<int, 2> tmp[] = {{3,2},{1,2},{6,2},{3,1},{1,1}};
+  for (int i=0; i<5; i++) {
+    v[i] = make_pair(tmp[i][0], tmp[i][1]);
   }
-
-  int num = 0;
-  for (int i=0; i<=w; i++) if (flg[i]) num++;
-
-  cout << num << endl;
+  sort(v, v+5);
+  for (int i=0; i<5; i++) {
+    cout << v[i].first << v[i].second << endl;
+  }
+  // std::sort(tmp.begin(), tmp.end(), [](auto& x, auto& y){return x[0] < y[0];});
 }

@@ -11,14 +11,10 @@ int main(void) {
 
   ////// 問題入力 //////
   int n, w;
-  cin >> n; cin >> w;
+  cin >> n >> w;
 
-  int l, i=0, a[n];
-  while (cin >> l) {
-    a[i] = l;
-    i++;
-    if(i >= n) break;
-  }
+  int a[n];
+  for(int i=0; i < n; i++) cin >> a[i];
 
   ////////////////////////////////////////
 

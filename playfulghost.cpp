@@ -3,8 +3,13 @@
 #include <algorithm>
 #include <array>
 #include <utility>
+#include <tuple>
 
 using namespace std;
+
+// int foreach_comb(int i) {
+//   int a = [];
+// }
 
 string i2s(unsigned int i) {
   if(i>256) {
@@ -14,8 +19,23 @@ string i2s(unsigned int i) {
   return "" + (unsigned char)(i);
 }
 
+int gcd(int a, int b) {
+    int ret;
+
+    for (int i=2; i<=min(a, b); i++) {
+       if (a % i == 0 && b % i == 0) {
+           ret = i;
+       }
+    }
+
+    return ret;
+} 
+
 int main(void) {
-  cout << (make_pair(2, 5) == make_pair(2, 5)) << endl;
+  int i, j;
+  cin >> i >> j;
+  cout << gcd(i, j) << endl;
+
   return 0;
 
   pair<int, int> v[5];

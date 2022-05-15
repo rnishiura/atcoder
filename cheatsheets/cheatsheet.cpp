@@ -8,55 +8,12 @@
 using namespace std;
 
 int main(void) {
-  ///////////////// 組み込み配列 ////////////////////
-
-  int l = 6;
-  int g[l] = {3, 2, 4, 3, 2, 6};
-
-  // ソート
-  sort(g, g+l);
-  for(int i=0; i<l; i++) cout << g[i] << endl;
-
-  // 順列
-  do {
-    for(int i=0; i<l; i++) cout << g[i] << endl;
-  } while( next_permutation(g, g+l) )
-
-  // TODO 組み合わせ
-
-
-  return 0;
-
-  ///////////////// 連想配列 ///////////////////////
-
-  int n;
-  cin >> n;
-
-  string s[n]; int t[n];
-  for(int i=0; i < n; i++) cin >> s[i] >> t[i];
-
-  /** 連想配列 **/
-  map<string, int> bools;
-
-  // キーの探索及び代入
-  for (int i=0; i<n; i++) {
-    if ( bools.find(i) == bools.end() ) bools[i] = i*2; 
-  }
-
-  // イテレーション
-  int max_i = 0;
-  for (map<string, int>::iterator itr = bools.begin(); itr != bools.end(); ++itr) {
-    if (t[itr->second] > t[max_i]) max_i = itr->second;
-  }
-
-  int num = max_i + 1;
-
   ////////////////// セット //////////////////////
 
   ////////////////// ペアクラス //////////////////////
 
-  // int n, m;
-  // cin >> n >> m;
+  int n, m;
+  cin >> n >> m;
 
   int a[m], b[m], c[m], d[m];
   for(int i=0; i < m; i++) cin >> a[i] >> b[i];

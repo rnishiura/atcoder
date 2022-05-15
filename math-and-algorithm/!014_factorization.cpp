@@ -1,31 +1,64 @@
 #include <iostream>
 #include <cmath>
+#include <map>
+#include <algorithm>
 using namespace std;
 
-// 素因数分解
-bool isPrimeNumber(int n) {
-  bool flg = true;
-
-  for (long i=sqrt(n); i>1; i--) {
-    if (n % i == 0) flg = false;
-  }
-  return flg;
-}
+void append(long a, long ans);
 
 int main() {
   long n;
   cin >> n;
-
-
-  // 平方根以下の探索; そしてその対
-  for (long i=sqrt(n); i>1; i--) {
-    if (n%i == 0) {
-      if (isPrimeNumber(i)) 
-        cout << i << endl;
-      if (isPrimeNumber(n/i)) 
-        cout << n/i << endl;
+  
+  long a, b;
+  for(long k=sqrt(n); k>1; k++){
+    if(n%k == 0) {
+      a = k;
+      b = n/k;
+      break;
     }
   }
+
+  long ans[1000];
+
+  int cnt = 0;
+  long k=2;
+  while(a > 1) {
+    if(a%k == 0) {
+      ans[cnt++] = k;
+      a/=k;
+      k=2;
+    } else {
+      k++;
+    }
+    if(k>sqrt(a)) {
+      break;
+    }
+  }
+
+  k=2;
+  while(b > 1) {
+    if(b%k == 0) {
+      ans[cnt++] = k;
+      b/=k;
+      k=2;
+    } else {
+      k++;
+    }
+    if(k>sqrt(b)) {
+      break;
+    }
+  }
+
+  sort(ans, ans+cnt);
+ 
+  for(int i=0; i < cnt; i++) {
+    cout << ans[i] << " ";
+  }
+  // for(map<int, long>::iterator itr = ans.begin(); itr != ans.end(); itr++) {
+  //   cout << itr->first << " ";
+  // }
+  cout << endl;
 
   return 0;
 }

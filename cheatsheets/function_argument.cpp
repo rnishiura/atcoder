@@ -18,6 +18,8 @@ int myMap(int a[], int len, void func(int) ) {
   return 0;
 }
 
+/* */
+
 void myFunc(int n) {
   cout << n*n << endl;
 }

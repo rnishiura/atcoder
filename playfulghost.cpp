@@ -1,9 +1,4 @@
-#include <iostream>
-#include <string>
-#include <algorithm>
-#include <array>
-#include <utility>
-#include <tuple>
+#include <bits/stdc++.h>
 
 using namespace std;
 

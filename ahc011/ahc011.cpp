@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define TRIAL_MAX 3000
+#define TRIAL_MAX 18000
 // #define COMMAND_MAX 10000
 
 // int N, T;
@@ -15,8 +15,8 @@ void show_map(char** map, int N) {
   }
 }
 
-// TODO セグメンテーションエラー：壁への対応
-// TODO ランダム生成におけるリアルタイムパフォーマンス評価
+// DONE セグメンテーションエラー：壁への対応
+// DONE ランダム生成におけるリアルタイムパフォーマンス評価
 // DONE y0, x0が動いていない！！
 
 bool map_move(char cmd, char** map, int N, int z[2]) {
@@ -261,31 +261,49 @@ int main(void) {
     z[1] = x0;
 
     int com_len = 2*N^3+1;
-    string cmd = "";
-    cnt_c = 0;
+
+    string cmd;
+    if (best_command.length() == 0) {
+      cnt_c = 0;
+      cmd = "";
+    } else {
+      cnt_c = rand() % best_command.length();
+      cmd = best_command.substr(0, cnt_c);
+      for(int i=0; i<cnt_c; i++)  map_move(cmd[i], current_map, N, z);
+    }
+
+    // cnt_c = 0;
+    // cmd = "";
+
     while(cnt_c < com_len) {
       char next_move = direction[rand() % 4];
 
-      // cout << cmd << endl;
+      int pq[2], rs[2];
+      dir2diff(cmd[cnt_c-1], pq);
+      dir2diff(next_move, rs);
+      if(pq[0]+rs[0] == 0 && pq[1]+rs[1] == 0) continue;
 
       bool ret = map_move(next_move, current_map, N, z);
       if (!ret) continue;
       
       cmd += next_move;
+      // cout << cmd << endl;
       
       cnt_c++;
 
-
       int score = calc_score(current_map, N);
 
-      // TODO 閉じた回路の検出
+      // TODO 閉ぢた回路の検出
+      // TODO 来た場所に戻らない
+      // DONE TRIALのBEST遺伝
+      // TODO その改良の余地？
+      // DONE 制限時間ギリギリまで試行
       if (score > best_score) {
         best_score = score;
         best_command = cmd;
         map_cpy(current_map, best_map, N);
       }
     }
-
 
     cnt_t++;
   }

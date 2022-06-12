@@ -31,7 +31,7 @@ int main(void) {
   sort(cd, cd+m);
 
   ////// 結果出力 //////
-  cout << num << endl;
+  // cout << num << endl;
 
   return 0;
 

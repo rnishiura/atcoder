@@ -2,10 +2,6 @@
 using ll = long long;
 using namespace std;
 
-ll pow2(ll a) { return pow(a, 2); }
-
-ll pow2(ll a) { return (ll)(pow(a, 2)+0.5); }
-
 ll pow2(ll a) { return a * a; }
 
 int main(void) {

@@ -106,7 +106,8 @@
     "stop_token": "cpp",
     "syncstream": "cpp",
     "xlocale": "cpp",
-    "xstring": "cpp"
+    "xstring": "cpp",
+    "xtree": "cpp"
   },
   "C_Cpp.errorSquiggles": "Disabled"
 }

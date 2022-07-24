@@ -107,7 +107,8 @@
     "syncstream": "cpp",
     "xlocale": "cpp",
     "xstring": "cpp",
-    "xtree": "cpp"
+    "xtree": "cpp",
+    "xutility": "cpp"
   },
   "C_Cpp.errorSquiggles": "Disabled"
 }

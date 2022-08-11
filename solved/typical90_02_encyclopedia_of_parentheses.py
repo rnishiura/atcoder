@@ -1,5 +1,5 @@
-L = "#"
-R = "-"
+L = ";"
+R = ")"
 N = int(input())
 
 def falling_snow(s):

@@ -1,18 +1,21 @@
+from math import ceil, inf
 N = int(input())
-A = []
-B = []
-import math
+X = []
+Y = []
+P = []
 
 for i in range(N):
-  A.append(list(map(int, input().split())))
+  x, y, p = tuple(map(int, input().split()))
+  X.append(x)
+  Y.append(y) 
+  P.append(p)
 
-for a in A:
-  s = 10e9+1
-  for b in A:
-    if a == b:
-      continue
-    s = min(s, (abs(b[0]-a[0]) + abs(b[1]-a[1]) ) / max(b[2], a[2]))
-  B.append(s)
+S = [[ceil((abs(X[i]-X[j]) + abs(Y[i]-Y[j])) / P[i]) if i != j else inf for j in range(N)] for i in range(N)]
 
-print(math.ceil(max(B)))
+for s in S:
+  print(*s, sep=" ")
+
+for s in S:
+  s = s[:1] + s[2:]
+  print(*s, sep=" ")
 

@@ -1,5 +1,5 @@
 def main():
-  cdef int i 
+  # cdef int i 
   MOD = 1000000007
   N = int(input())
   a2 = 1

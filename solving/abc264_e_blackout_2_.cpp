@@ -23,17 +23,18 @@ int main(void) {
     cin >> u[0];
     event.push_back(u[0]);
   }
+  set<ll> pool;
+  ll dark_cnt=0;
+  for(ll j=1; j<=N; j++) pool.insert(j);
   for(ll i=0; i<Q; i++) {
-    pair p = wire[event[i]];
-    nodes[p.first].erase(p.second);
-    nodes[p.second].erase(p.first);
-    set<ll> dark;
-    for(ll city=1; city<=N; city++) {
-      if(dark.find(city) != dark.end()) continue;
+    pair<ll,ll> pp = wire[event[i]];
+    v p{pp.first, pp.second};
+    for(ll j=0; j<2; j++) nodes[p[j]].erase(p[1-j]);
+    for(ll j=0; j<2; j++) {
       set<ll> searched;
       set<ll> edge;
-      edge.insert(city);
-      while(edge.size() > 0) {
+      edge.insert(p[j]);
+      while(edge.begin() != edge.end()) {
         auto e = edge.begin();
         set<ll> d = nodes[*e];
         searched.insert(*e);
@@ -51,10 +52,14 @@ int main(void) {
       }
       if(!flg) {
         for(auto it=searched.begin(); it!=searched.end(); it++) {
-          dark.insert(*it);
+          if (pool.find(*it) != pool.end()) {
+            pool.erase(*it);
+            ++dark_cnt;
+          }
         }
       }
     }
-    cout << N-dark.size() << endl;
+    cout << N-dark_cnt << endl;
   }
 }
+

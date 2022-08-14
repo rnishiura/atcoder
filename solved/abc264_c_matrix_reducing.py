@@ -8,7 +8,7 @@ def h2i(h):
   return ret
 
 def main():
-  # cdef int i, j
+  cdef int i, j
   H1, W1 = tuple(map(int, input().split()))
   A = []
   for i in range(H1):

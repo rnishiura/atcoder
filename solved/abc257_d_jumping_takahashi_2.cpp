@@ -33,61 +33,55 @@ int main(void) {
   for(ll i=0; i<N; i++) cin >> X[i] >> Y[i] >> P[i];
 
   ll L, R, M;
-  ll min_S = INT64_MAX;
+  ll min_val = INT64_MAX;
   bool flg;
   for(ll i=0; i<N; i++) {
     L = 0;
     R = 4000000000;
+    
     while(true) {
       M = (L+R)/2;
-      flg = false;
-      
-      // BFS
+
       set<ll> pool;
       vector<set<ll>> stage(1);
-      ll si=0;
-      stage[si].insert(i);
+
       pool.insert(i);
-      while( stage[si].size() ) {
-        set<ll> next;
-        for(auto it=stage[si].begin(); it != stage[si].end(); it++) {
+      stage[0].insert(i);
+      while(stage[stage.size()-1].size()) {
+        set<ll> new_stage;
+        for(auto item: stage[stage.size()-1]) {
           for(ll j=0; j<N; j++) {
-            if(pool.find(j) != pool.end()) continue;
-            if(M*P[*it] >= abs(X[*it]-X[j]) + abs(Y[*it]-Y[j])) {
-              next.insert(j);
-              pool.insert(j);
+            if(P[item]*M >= abs(X[item]-X[j]) + abs(Y[item]-Y[j])) {
+              if(pool.find(j) == pool.end()) {
+                pool.insert(j);
+                new_stage.insert(j);
+              }
             }
           }
         }
-        stage.push_back(next);
-        si++;
+        stage.push_back(new_stage);
       }
 
-      flg = pool.size() == N;
+      flg = N == pool.size();
 
-      // end if L and R is adjacent
-      if(L+1>=R) {
-        // cout << L << " " << R << endl;
-        // cout << pool.size() << endl;
-        break;
-      }
+      if(L+1 >= R) break;
 
-      // if fully connected
-      if(flg) 
+      if(flg) {
         R = M;
-      else 
+      } else {
         L = M;
+      }
     }
 
-    // flg is for L else R
-    if(flg) 
+    if(flg) {
       M = L;
-    else 
+    } else  {
       M = R;
+    }
 
-    min_S = min(min_S, M);
+    min_val = min(min_val, M);
   }
-  cout << min_S << endl;
+  cout << min_val << endl;
 }
 
 // 始点の全探索（最小のジャンプ力)

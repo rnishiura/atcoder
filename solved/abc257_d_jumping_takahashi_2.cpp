@@ -47,9 +47,9 @@ int main(void) {
 
       pool.insert(i);
       stage[0].insert(i);
-      while(stage[stage.size()-1].size()) {
+      while(stage.back().size()) {
         set<ll> new_stage;
-        for(auto item: stage[stage.size()-1]) {
+        for(auto item: stage.back()) {
           for(ll j=0; j<N; j++) {
             if(P[item]*M >= abs(X[item]-X[j]) + abs(Y[item]-Y[j])) {
               if(pool.find(j) == pool.end()) {
@@ -62,24 +62,14 @@ int main(void) {
         stage.push_back(new_stage);
       }
 
-      flg = N == pool.size();
+      flg = (N == pool.size());
 
       if(L+1 >= R) break;
 
-      if(flg) {
-        R = M;
-      } else {
-        L = M;
-      }
+      if(flg) R = M;
+      else    L = M;
     }
-
-    if(flg) {
-      M = L;
-    } else  {
-      M = R;
-    }
-
-    min_val = min(min_val, M);
+    min_val = min(min_val, flg ? L:R);
   }
   cout << min_val << endl;
 }

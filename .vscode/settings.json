@@ -111,7 +111,8 @@
     "xutility": "cpp",
     "*.snippet": "cpp",
     "xlocnum": "cpp",
-    "xiosbase": "cpp"
+    "xiosbase": "cpp",
+    "xmemory": "cpp"
   },
   "C_Cpp.errorSquiggles": "Disabled"
 }

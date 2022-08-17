@@ -109,7 +109,9 @@
     "xstring": "cpp",
     "xtree": "cpp",
     "xutility": "cpp",
-    "*.snippet": "cpp"
+    "*.snippet": "cpp",
+    "xlocnum": "cpp",
+    "xiosbase": "cpp"
   },
   "C_Cpp.errorSquiggles": "Disabled"
 }

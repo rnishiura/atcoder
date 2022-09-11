@@ -25,9 +25,17 @@ void print_vvp(vvp a) {
 }
 
 int main(void) {
-  ll N;
-  cin >> N;
+  ll N, X;
+  cin >> N >> X;
 
-  vvp A(N, vp(N, make_pair(N, N)));
-  print_vvp(A);
+  ll cnt = 0;
+  for(ll i=1; i<=N; i++) {
+    for(ll j=i+1; j<=N; j++) {
+      for(ll k=j+1; k<=N; k++) {
+        if(i+j+k == X) cnt++;
+      }
+    }
+  }
+
+  cout << cnt << endl;
 }

@@ -18,7 +18,7 @@
 #define divle(n, m) ((n+m-1)/(m)) 
 #define divse(n, m) ((n)/(m)) 
 #define divs(n, m)  ((n-1)/(m)) 
-#define MOD 1000000000000000000
+#define MOD 998244353
 #define LL_MAX  (1LL << 62)
 #define fi first
 #define se second
@@ -51,56 +51,27 @@ using vv  = vector<v>;
 using vp  = vector<pair<ll, ll>>;
 using vvp = vector<vp>;
 
-ll power(ll n, ll m) {
-  ll s=1;
-  while(m) {
-    s = (s * (m % 2 ? n : 1)) % MOD;
-    n = (n*n) % MOD;
-    m >>= 1;
+void prime(v &a, ll N) {
+  vector<bool> tmp(N+1, true);
+  ll end = sqrt(N+1)+1;
+  for(ll i=2; i<=end; i++) {
+    while(!tmp[i] && i<=end) i++;
+    for(ll j=2; i*j<=N; j++) tmp[i*j] = false;
   }
-  return s;
+  a.empty();
+  for(ll i=2; i<=N; i++) if(tmp[i]) a.push_back(i);
 }
-
 
 void solve() {
   ll n; cin >> n;
-  ll ans = 0;
+  v a; prime(a, 10000000);
 
-  ll head = 0;
-  repi(i, 1, 16) {
-    head = 10*head+1;
-    // head = power(10, i-1);
-
-    // head only
-    // case 111...1
-    if(head <= n) {
-      // print(head);
-      ans += i;
-    }
-
-    // head and tail
-    // case 111...1jXX...X
-    // where X, j is 0...9 except j =/= 1
-    // and len(XX...X) >= 0
-    rep(j, 10) {
-      if(j == 1) continue;
-      ll base = 10*head+j;
-      rep(k, 16-i) {
-        // print2(base, base+power(10, k));
-        ll ofs=power(10, k);
-        if(base <= n && n < base+ofs) {
-          // range but <= n
-          // print2(base, n);
-          ans += i*(n-base+1);
-        } else if(base+ofs <= n) {
-          // whole range
-          // print2(base, base+ofs-1);
-          ans += i*ofs;
-        }
-        base = 10*base;
-      }
-    }
+  ll ans=0;
+  repi(i, 1, a.size()) {
+    ll j = min(i-1, (ll)uppb(n/a[i]/a[i]/a[i], a)-1);
+    ans += j+1;
   }
+
   print(ans);
 }
 

@@ -1,3 +1,11 @@
+/*
+Problem: https://atcoder.jp/contests/agc017/tasks/agc017_a
+Author: rnishiura
+Date: 221231
+Description:
+
+*/
+
 #include <bits/stdc++.h>
 #define _GLIBCXX_DEBUG
 #define rep(x, n)      for(ll x=0; x<n; x++)
@@ -18,15 +26,13 @@
 #define divle(n, m) ((n+m-1)/(m)) 
 #define divse(n, m) ((n)/(m)) 
 #define divs(n, m)  ((n-1)/(m)) 
-#define MOD 1000000000000000000
+#define MOD 998244353
 #define LL_MAX  (1LL << 62)
 #define fi first
 #define se second
 #define pb push_back
 #define mp make_pair
 #define endl '\n'
-#define printnl(z)      cout << (z) << ' '
-#define println()       cout << endl
 #define print(z)        cout << (z) << endl
 #define print2(y, z)    cout << (y) << ' '; print(z)
 #define print3(x, y, z) cout << (x) << ' '; print2(y, z)
@@ -51,57 +57,65 @@ using vv  = vector<v>;
 using vp  = vector<pair<ll, ll>>;
 using vvp = vector<vp>;
 
-ll power(ll n, ll m) {
-  ll s=1;
-  while(m) {
-    s = (s * (m % 2 ? n : 1)) % MOD;
-    n = (n*n) % MOD;
-    m >>= 1;
-  }
-  return s;
+// 考える整数の最大値
+const int MAX = 51;
+
+// メモを保管する場所
+ll fact[MAX], inv_fact[MAX], inv[MAX];
+
+// メモを計算する
+void init() {
+    // 初期値設定と1はじまりインデックスに直す
+    fact[0] = 1;
+    fact[1] = 1;
+    inv[0] = 1;
+    inv[1] = 1;
+    inv_fact[0] = 1;
+    inv_fact[1] = 1;
+    // メモの計算
+    repi(i, 2, MAX){
+        // 階乗
+        fact[i] = fact[i - 1] * i % MOD;
+        // 逆元
+        inv[i] = MOD - inv[MOD%i] * (MOD / i) % MOD;
+        // 逆元の階乗
+        inv_fact[i] = inv_fact[i - 1] * inv[i] % MOD;
+    }
 }
 
+// 二項係数の実体
+ll cmb(int n, int k) {
+    ll x = fact[n]; // n!の計算
+    ll y = inv_fact[n-k]; // (n-k)!の計算
+    ll z = inv_fact[k]; // k!の計算
+    if (n < k) return 0; // 例外処理
+    if (n < 0 || k < 0) return 0; // 例外処理
+    return x * ((y * z) % MOD) % MOD; //二項係数の計算
+}
+
+ll m(ll a, ll b) {
+  return ((a%MOD) * (b%MOD)) % MOD;
+}
 
 void solve() {
-  ll n; cin >> n;
-  ll ans = 0;
-
-  ll head = 0;
-  repi(i, 1, 16) {
-    head = 10*head+1;
-    // head = power(10, i-1);
-
-    // head only
-    // case 111...1
-    if(head <= n) {
-      // print(head);
-      ans += i;
-    }
-
-    // head and tail
-    // case 111...1jXX...X
-    // where X, j is 0...9 except j =/= 1
-    // and len(XX...X) >= 0
-    rep(j, 10) {
-      if(j == 1) continue;
-      ll base = 10*head+j;
-      rep(k, 16-i) {
-        // print2(base, base+power(10, k));
-        ll ofs=power(10, k);
-        if(base <= n && n < base+ofs) {
-          // range but <= n
-          // print2(base, n);
-          ans += i*(n-base+1);
-        } else if(base+ofs <= n) {
-          // whole range
-          // print2(base, base+ofs-1);
-          ans += i*ofs;
-        }
-        base = 10*base;
-      }
+  init();
+  ll n, p; cin >> n >> p;
+  
+  ll val, c0=0, c1=0; rep(i, n) {
+    cin >> val;
+    if(val%2 == 0) {
+      c0++;
+    } else {
+      c1++;
     }
   }
-  print(ans);
+
+  ll r = 0;
+  for(ll i=p; i<=c1; i+=2) {
+    r += cmb(c1, i);
+  }
+  r *= (1LL << c0);
+  print(r);
 }
 
 int main(void) {

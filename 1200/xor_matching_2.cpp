@@ -1,3 +1,31 @@
+/*
+https://atcoder.jp/contests/arc124/tasks/arc124_b
+if a xor c = b then a = b xor c 
+therefore in the problem if
+a1 xor bx1 = x
+a2 xor bx2 = x
+.
+.
+an xor bxn = x
+then
+bx1 = a1 xor x
+bx2 = a2 xor x
+.
+.
+bxn = an xor x
+and if {a} can be sorted to equal {b}
+then sorted {a} and sorted {b} are equal
+therefore in the problem sort {ai xor x} and {bxi}
+then check if they are equal 
+
+Generally, to sort {ai} and {bj} to meet the condition ai ~ bxj = c
+where ~ is a operator, and if you can rewrite the condition into 
+the form ai = f(bxj, c), you can check if sorted {ai} and sorted {f(bxj, c)}
+are equal. If not, such that condition cannot be met.
+For example, to sort {pi} and {qj} to meet the condition pi xor qxj = r
+where pi = r xor qxj then check if sorted {pi} and sorted {r xor qxj} are equal.
+221229 rnishiura
+*/
 #include <bits/stdc++.h>
 #define _GLIBCXX_DEBUG
 #define rep(x, n)      for(ll x=0; x<n; x++)
@@ -18,15 +46,13 @@
 #define divle(n, m) ((n+m-1)/(m)) 
 #define divse(n, m) ((n)/(m)) 
 #define divs(n, m)  ((n-1)/(m)) 
-#define MOD 1000000000000000000
+#define MOD 998244353
 #define LL_MAX  (1LL << 62)
 #define fi first
 #define se second
 #define pb push_back
 #define mp make_pair
 #define endl '\n'
-#define printnl(z)      cout << (z) << ' '
-#define println()       cout << endl
 #define print(z)        cout << (z) << endl
 #define print2(y, z)    cout << (y) << ' '; print(z)
 #define print3(x, y, z) cout << (x) << ' '; print2(y, z)
@@ -51,57 +77,34 @@ using vv  = vector<v>;
 using vp  = vector<pair<ll, ll>>;
 using vvp = vector<vp>;
 
-ll power(ll n, ll m) {
-  ll s=1;
-  while(m) {
-    s = (s * (m % 2 ? n : 1)) % MOD;
-    n = (n*n) % MOD;
-    m >>= 1;
-  }
-  return s;
-}
-
 
 void solve() {
-  ll n; cin >> n;
-  ll ans = 0;
+  ll n, x; cin >> n;
+  v a(n), b(n), c(n); 
+  rep(i, n) { cin >> a[i]; }
+  rep(i, n) { cin >> b[i]; }
+  
+  sort(all(b));
 
-  ll head = 0;
-  repi(i, 1, 16) {
-    head = 10*head+1;
-    // head = power(10, i-1);
-
-    // head only
-    // case 111...1
-    if(head <= n) {
-      // print(head);
-      ans += i;
+  set<ll> r;
+  rep(i, n) {
+    x = a[0]^b[i];
+    rep(j, n) {
+      c[j] = a[j]^x;
     }
-
-    // head and tail
-    // case 111...1jXX...X
-    // where X, j is 0...9 except j =/= 1
-    // and len(XX...X) >= 0
-    rep(j, 10) {
-      if(j == 1) continue;
-      ll base = 10*head+j;
-      rep(k, 16-i) {
-        // print2(base, base+power(10, k));
-        ll ofs=power(10, k);
-        if(base <= n && n < base+ofs) {
-          // range but <= n
-          // print2(base, n);
-          ans += i*(n-base+1);
-        } else if(base+ofs <= n) {
-          // whole range
-          // print2(base, base+ofs-1);
-          ans += i*ofs;
-        }
-        base = 10*base;
+    sort(all(c));
+    bool flg=true;
+    rep(j, n) {
+      if(c[j] != b[j]) {
+        flg = false;
+        break;
       }
     }
+    if(flg) r.insert(x);
   }
-  print(ans);
+
+  print(r.size());
+  for(ll val: r) print(val);
 }
 
 int main(void) {

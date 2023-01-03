@@ -1,3 +1,19 @@
+/*
+Problem: https://atcoder.jp/contests/abc178/tasks/abc178_c
+Author: rnishiura
+Date: 221230
+Description:
+According to set theory, not (a and b) = not a or not b
+n(not a or not b) = n(not a) + n(not b) - n(not a and not b)
+so n(a and b) 
+= n(all) - n(not a or not b)
+= n(all) - n(not a) - n(not b) + n(not a and not b)
+In the problem, n(has 1 and has 9)
+= n(all) - n(not has 1 or not has 9)
+= n(all) - n(not has 1) - n(not has 9) + n(not has 1 and not has 9)
+= 10**n - 9**n - 9**n + 8**n
+*/
+
 #include <bits/stdc++.h>
 #define _GLIBCXX_DEBUG
 #define rep(x, n)      for(ll x=0; x<n; x++)
@@ -18,15 +34,13 @@
 #define divle(n, m) ((n+m-1)/(m)) 
 #define divse(n, m) ((n)/(m)) 
 #define divs(n, m)  ((n-1)/(m)) 
-#define MOD 1000000000000000000
+#define MOD 1000000007
 #define LL_MAX  (1LL << 62)
 #define fi first
 #define se second
 #define pb push_back
 #define mp make_pair
 #define endl '\n'
-#define printnl(z)      cout << (z) << ' '
-#define println()       cout << endl
 #define print(z)        cout << (z) << endl
 #define print2(y, z)    cout << (y) << ' '; print(z)
 #define print3(x, y, z) cout << (x) << ' '; print2(y, z)
@@ -61,47 +75,11 @@ ll power(ll n, ll m) {
   return s;
 }
 
-
 void solve() {
-  ll n; cin >> n;
-  ll ans = 0;
-
-  ll head = 0;
-  repi(i, 1, 16) {
-    head = 10*head+1;
-    // head = power(10, i-1);
-
-    // head only
-    // case 111...1
-    if(head <= n) {
-      // print(head);
-      ans += i;
-    }
-
-    // head and tail
-    // case 111...1jXX...X
-    // where X, j is 0...9 except j =/= 1
-    // and len(XX...X) >= 0
-    rep(j, 10) {
-      if(j == 1) continue;
-      ll base = 10*head+j;
-      rep(k, 16-i) {
-        // print2(base, base+power(10, k));
-        ll ofs=power(10, k);
-        if(base <= n && n < base+ofs) {
-          // range but <= n
-          // print2(base, n);
-          ans += i*(n-base+1);
-        } else if(base+ofs <= n) {
-          // whole range
-          // print2(base, base+ofs-1);
-          ans += i*ofs;
-        }
-        base = 10*base;
-      }
-    }
-  }
-  print(ans);
+  ll n, r; cin >> n;
+  r = power(10, n) - power(9, n) - power(9, n) + power(8, n);
+  r = (r + MOD) % MOD;
+  print(r);
 }
 
 int main(void) {

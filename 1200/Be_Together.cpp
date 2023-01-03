@@ -1,3 +1,11 @@
+/*
+Problem: https://atcoder.jp/contests/arc059/tasks/arc059_a
+Author: rnishiura
+Date: 230103
+Description:
+
+*/
+
 #include <bits/stdc++.h>
 #define _GLIBCXX_DEBUG
 #define rep(x, n)      for(ll x=0; x<n; x++)
@@ -18,15 +26,13 @@
 #define divle(n, m) ((n+m-1)/(m)) 
 #define divse(n, m) ((n)/(m)) 
 #define divs(n, m)  ((n-1)/(m)) 
-#define MOD 1000000000000000000
+#define MOD 998244353
 #define LL_MAX  (1LL << 62)
 #define fi first
 #define se second
 #define pb push_back
 #define mp make_pair
 #define endl '\n'
-#define printnl(z)      cout << (z) << ' '
-#define println()       cout << endl
 #define print(z)        cout << (z) << endl
 #define print2(y, z)    cout << (y) << ' '; print(z)
 #define print3(x, y, z) cout << (x) << ' '; print2(y, z)
@@ -61,47 +67,19 @@ ll power(ll n, ll m) {
   return s;
 }
 
-
 void solve() {
-  ll n; cin >> n;
-  ll ans = 0;
-
-  ll head = 0;
-  repi(i, 1, 16) {
-    head = 10*head+1;
-    // head = power(10, i-1);
-
-    // head only
-    // case 111...1
-    if(head <= n) {
-      // print(head);
-      ans += i;
-    }
-
-    // head and tail
-    // case 111...1jXX...X
-    // where X, j is 0...9 except j =/= 1
-    // and len(XX...X) >= 0
-    rep(j, 10) {
-      if(j == 1) continue;
-      ll base = 10*head+j;
-      rep(k, 16-i) {
-        // print2(base, base+power(10, k));
-        ll ofs=power(10, k);
-        if(base <= n && n < base+ofs) {
-          // range but <= n
-          // print2(base, n);
-          ans += i*(n-base+1);
-        } else if(base+ofs <= n) {
-          // whole range
-          // print2(base, base+ofs-1);
-          ans += i*ofs;
-        }
-        base = 10*base;
-      }
-    }
+  ll n, s=0; cin >> n;
+  v a(n); rep(i, n) {
+    cin >> a[i];
+    s += a[i];
   }
-  print(ans);
+  s /= n;
+  ll r1=0, r2=0;
+  rep(i, n) {
+    r1 += power(a[i]-s, 2);
+    r2 += power(a[i]-s-1, 2);
+  }
+  print(min(r1, r2));
 }
 
 int main(void) {

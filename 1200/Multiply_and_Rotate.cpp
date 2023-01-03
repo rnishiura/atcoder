@@ -1,3 +1,12 @@
+/*
+Problem: https://atcoder.jp/contests/abc235/tasks/abc235_d
+Author: rnishiura
+Date: 230103
+Description:
+When calculate f: x |-> y recursively on x < N
+Use memo so that complexity is bounded up to N.
+*/
+
 #include <bits/stdc++.h>
 #define _GLIBCXX_DEBUG
 #define rep(x, n)      for(ll x=0; x<n; x++)
@@ -18,15 +27,13 @@
 #define divle(n, m) ((n+m-1)/(m)) 
 #define divse(n, m) ((n)/(m)) 
 #define divs(n, m)  ((n-1)/(m)) 
-#define MOD 1000000000000000000
+#define MOD 998244353
 #define LL_MAX  (1LL << 62)
 #define fi first
 #define se second
 #define pb push_back
 #define mp make_pair
 #define endl '\n'
-#define printnl(z)      cout << (z) << ' '
-#define println()       cout << endl
 #define print(z)        cout << (z) << endl
 #define print2(y, z)    cout << (y) << ' '; print(z)
 #define print3(x, y, z) cout << (x) << ' '; print2(y, z)
@@ -51,57 +58,45 @@ using vv  = vector<v>;
 using vp  = vector<pair<ll, ll>>;
 using vvp = vector<vp>;
 
-ll power(ll n, ll m) {
-  ll s=1;
-  while(m) {
-    s = (s * (m % 2 ? n : 1)) % MOD;
-    n = (n*n) % MOD;
-    m >>= 1;
+map<ll, ll> memo;
+
+ll roll(ll n) {
+  if(n < 10) return n;
+  string s = to_string(n);
+  vector<char> r;
+  if(s[1] == '0') return -1;
+  repi(i, 1, s.length()) r.pb(s[i]);
+  r.pb(s[0]);
+  return stoi(string(all(r)));
+}
+
+ll min_op(ll N, ll a, ll m) {
+  if(contains(N, memo)) return memo[N];
+  // print(N);
+  if(N == 1) return m;
+  // if(N>=10 && N%10 == 0) {
+  //   return N%a ? LL_MAX : min_op(N/a, a, m+1);
+  // }
+
+  string s = to_string(N);
+  ll r=N;
+  ll min_val = LL_MAX;
+  rep(i, s.length()) {
+    if(r%a == 0) min_val = min(min_val, min_op(r/a, a, m+i+1));
+    r = roll(r);
+    if(r == -1) break;
   }
-  return s;
+  memo[N] = min_val;
+  return min_val;
 }
 
 
 void solve() {
-  ll n; cin >> n;
-  ll ans = 0;
+  ll a, N; cin >> a >> N;
 
-  ll head = 0;
-  repi(i, 1, 16) {
-    head = 10*head+1;
-    // head = power(10, i-1);
+  ll r = min_op(N, a, 0);
 
-    // head only
-    // case 111...1
-    if(head <= n) {
-      // print(head);
-      ans += i;
-    }
-
-    // head and tail
-    // case 111...1jXX...X
-    // where X, j is 0...9 except j =/= 1
-    // and len(XX...X) >= 0
-    rep(j, 10) {
-      if(j == 1) continue;
-      ll base = 10*head+j;
-      rep(k, 16-i) {
-        // print2(base, base+power(10, k));
-        ll ofs=power(10, k);
-        if(base <= n && n < base+ofs) {
-          // range but <= n
-          // print2(base, n);
-          ans += i*(n-base+1);
-        } else if(base+ofs <= n) {
-          // whole range
-          // print2(base, base+ofs-1);
-          ans += i*ofs;
-        }
-        base = 10*base;
-      }
-    }
-  }
-  print(ans);
+  print(r == LL_MAX ? -1 : r);
 }
 
 int main(void) {

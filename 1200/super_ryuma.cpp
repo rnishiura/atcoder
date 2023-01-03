@@ -18,15 +18,13 @@
 #define divle(n, m) ((n+m-1)/(m)) 
 #define divse(n, m) ((n)/(m)) 
 #define divs(n, m)  ((n-1)/(m)) 
-#define MOD 1000000000000000000
+#define MOD 998244353
 #define LL_MAX  (1LL << 62)
 #define fi first
 #define se second
 #define pb push_back
 #define mp make_pair
 #define endl '\n'
-#define printnl(z)      cout << (z) << ' '
-#define println()       cout << endl
 #define print(z)        cout << (z) << endl
 #define print2(y, z)    cout << (y) << ' '; print(z)
 #define print3(x, y, z) cout << (x) << ' '; print2(y, z)
@@ -51,57 +49,27 @@ using vv  = vector<v>;
 using vp  = vector<pair<ll, ll>>;
 using vvp = vector<vp>;
 
-ll power(ll n, ll m) {
-  ll s=1;
-  while(m) {
-    s = (s * (m % 2 ? n : 1)) % MOD;
-    n = (n*n) % MOD;
-    m >>= 1;
-  }
-  return s;
-}
 
 
 void solve() {
-  ll n; cin >> n;
-  ll ans = 0;
-
-  ll head = 0;
-  repi(i, 1, 16) {
-    head = 10*head+1;
-    // head = power(10, i-1);
-
-    // head only
-    // case 111...1
-    if(head <= n) {
-      // print(head);
-      ans += i;
-    }
-
-    // head and tail
-    // case 111...1jXX...X
-    // where X, j is 0...9 except j =/= 1
-    // and len(XX...X) >= 0
-    rep(j, 10) {
-      if(j == 1) continue;
-      ll base = 10*head+j;
-      rep(k, 16-i) {
-        // print2(base, base+power(10, k));
-        ll ofs=power(10, k);
-        if(base <= n && n < base+ofs) {
-          // range but <= n
-          // print2(base, n);
-          ans += i*(n-base+1);
-        } else if(base+ofs <= n) {
-          // whole range
-          // print2(base, base+ofs-1);
-          ans += i*ofs;
-        }
-        base = 10*base;
-      }
-    }
+  ll r1, c1, r2, c2; cin >> r1 >> c1 >> r2 >> c2;
+  if(r1 == r2 && c1 == c2) {
+    print(0);
+    return;
   }
-  print(ans);
+  if(r1+c1 == r2+c2 || r1-c1 == r2-c2 || llabs(r1-r2)+llabs(c1-c2) <= 3) {
+    print(1);
+    return;
+  }
+  if(
+    (llabs(r2-r1)+llabs(c2-c1))%2 == 0 || 
+    r1+c1-3 <= r2+c2 && r2+c2 <= r1+c1+3 ||
+    r1-c1-3 <= r2-c2 && r2-c2 <= r1-c1+3
+  ) {
+    print(2);
+    return;
+  }
+  print(3);
 }
 
 int main(void) {

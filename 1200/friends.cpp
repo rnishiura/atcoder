@@ -40,11 +40,12 @@ int main(void) {
     rep(j, 2) g[u[j]].pb(u[1-j]);
   }
 
-  v d(n+1, -1); d[1] = 0;
+  v d(n+1, -1); 
   ll max_cnt = 0;
   repi(i, 1, n+1) {
     if(d[i] != -1) continue;
     v fr = {i};
+    d[i] = 1;
     ll cnt = 1;
     while(fr.size()) {
       v to;

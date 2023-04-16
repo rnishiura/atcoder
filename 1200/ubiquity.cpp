@@ -78,6 +78,7 @@ ll power(ll n, ll m) {
 void solve() {
   ll n, r; cin >> n;
   r = power(10, n) - power(9, n) - power(9, n) + power(8, n);
+  r %= MOD;
   r = (r + MOD) % MOD;
   print(r);
 }

@@ -52,7 +52,8 @@ using vvp = vector<vp>;
 
 
 void solve() {
-  ll r1, c1, r2, c2; cin >> r1 >> c1 >> r2 >> c2;
+  ll r1, c1, r2, c2; 
+  cin >> r1 >> c1 >> r2 >> c2;
   if(r1 == r2 && c1 == c2) {
     print(0);
     return;
@@ -62,6 +63,7 @@ void solve() {
     return;
   }
   if(
+    llabs(r1-r2)+llabs(c1-c2) <= 6 ||
     (llabs(r2-r1)+llabs(c2-c1))%2 == 0 || 
     r1+c1-3 <= r2+c2 && r2+c2 <= r1+c1+3 ||
     r1-c1-3 <= r2-c2 && r2-c2 <= r1-c1+3

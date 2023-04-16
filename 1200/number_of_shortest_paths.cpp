@@ -31,7 +31,7 @@ int main(void) {
     rep(j, 2) g[u[j]].pb(u[1-j]);
   }
 
-  v d(n+1, 0); d[1] = 1;
+  v d(n+1, 0);  d[1] = 1;
   v s(n+1, -1); s[1] = 0;
   set<ll> fr = {1};
   while(fr.size()) {

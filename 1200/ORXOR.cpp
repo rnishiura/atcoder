@@ -66,8 +66,8 @@ void solve() {
       } else {
         or_val = or_val | a[i+1];
       }
-      min_val = min(min_val, xor_val^or_val);
     }
+    min_val = min(min_val, xor_val^or_val);
     b++;
   }
   print(min_val);

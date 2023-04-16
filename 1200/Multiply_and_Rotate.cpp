@@ -58,45 +58,52 @@ using vv  = vector<v>;
 using vp  = vector<pair<ll, ll>>;
 using vvp = vector<vp>;
 
-map<ll, ll> memo;
 
-ll roll(ll n) {
-  if(n < 10) return n;
+ll rev_roll(ll n) {
+  ll ret;
   string s = to_string(n);
+  if(s.length() == 1 || s[1] == '0') return -1;
   vector<char> r;
-  if(s[1] == '0') return -1;
   repi(i, 1, s.length()) r.pb(s[i]);
   r.pb(s[0]);
-  return stoi(string(all(r)));
+  ret = stoi(string(all(r)));
+  return ret;
 }
 
-ll min_op(ll N, ll a, ll m) {
-  if(contains(N, memo)) return memo[N];
-  // print(N);
-  if(N == 1) return m;
-  // if(N>=10 && N%10 == 0) {
-  //   return N%a ? LL_MAX : min_op(N/a, a, m+1);
-  // }
-
-  string s = to_string(N);
-  ll r=N;
-  ll min_val = LL_MAX;
-  rep(i, s.length()) {
-    if(r%a == 0) min_val = min(min_val, min_op(r/a, a, m+i+1));
-    r = roll(r);
-    if(r == -1) break;
+ll power(ll n, ll m) {
+  ll s=1;
+  while(m) {
+    s = s * (m % 2 ? n : 1);
+    n = n*n;
+    m >>= 1;
   }
-  memo[N] = min_val;
-  return min_val;
+  return s;
 }
 
+ll digits(ll N) { return to_string(N).size(); }
 
 void solve() {
   ll a, N; cin >> a >> N;
 
-  ll r = min_op(N, a, 0);
-
-  print(r == LL_MAX ? -1 : r);
+  ll M = power(10, digits(N));
+  v d(M, -1);
+  v fr = {N}; d[N] = 0;
+  while(fr.size()) {
+    v to;
+    for(ll f: fr) {
+      if(f % a == 0 && d[f/a] == -1) {
+        d[f/a] = d[f] + 1;
+        to.pb(f/a);
+      }
+      ll r = rev_roll(f);
+      if(r != -1 && d[r] == -1) {
+        d[r] = d[f] + 1;
+        to.pb(r);
+      }
+    }
+    fr = to;
+  }
+  print(d[1]);
 }
 
 int main(void) {

@@ -13,8 +13,8 @@ bx2 = a2 xor x
 .
 .
 bxn = an xor x
-and if {a} can be sorted to equal {b}
-then sorted {a} and sorted {b} are equal
+and if {a} can be sorted to equal {b} 
+then sorted {a} and sorted {b} are equal 
 therefore in the problem sort {ai xor x} and {bxi}
 then check if they are equal 
 
